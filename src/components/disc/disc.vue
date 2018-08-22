@@ -6,7 +6,7 @@
 
 <script type="text/ecmascript-6">
   import MusicList from 'components/music-list/music-list'
-  import {getSongList} from 'api/recommend'
+  import {getSongList, getSongVkey} from 'api/recommend'
   import {ERR_OK} from 'api/config'
   import {mapGetters} from 'vuex'
   import {createSong} from 'common/js/song'
@@ -46,9 +46,12 @@
       _normalizeSongs(list) {
         let ret = []
         list.forEach((musicData) => {
-          if (musicData.songid && musicData.albummid) {
-            ret.push(createSong(musicData))
-          }
+          getSongVkey(musicData.songmid).then((res) => {
+            const vKey = res.data.items[0].vkey
+            if (musicData.songmid && musicData.albummid) {
+              ret.push(createSong(musicData, vKey))
+            }
+          })
         })
         return ret
       }
