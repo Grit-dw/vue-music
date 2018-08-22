@@ -50,7 +50,9 @@
       _normalizeSongs(list) {
         let ret = []
         list.forEach((item) => {
-          //此处data为远程接口数据接口参数名
+          /**
+           * 此处data为远程接口数据接口参数名
+           * */
           let {data} = item
           getSongVkey(data.songmid).then((res) => {
             const vKey = res.data.items[0].vkey

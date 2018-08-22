@@ -34,5 +34,12 @@ export function getSongVkey (songmid) {
     songmid: songmid,
     filename: `C400${songmid}.m4a`
   })
-  return jsonp(url, data)
+  /**
+   * return jsonp(url, data)
+   */
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
 }
