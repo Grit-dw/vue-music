@@ -37,8 +37,7 @@ export function getDiscList() {
 }
 
 export function getSongList(disstid) {
-  const url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
-
+  const url = '/api/getcdlist'
   const data = Object.assign({}, commonParams, {
     disstid,
     type: 1,
@@ -47,8 +46,30 @@ export function getSongList(disstid) {
     onlysong: 0,
     platform: 'yqq',
     hostUin: 0,
-    needNewCode: 0
+    needNewCode: 0,
+    g_tk: 5381,
+    format: 'json'
   })
 
-  return jsonp(url, data, options)
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}
+
+export function getSongVkey (songmid) {
+  const url = 'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg'
+  const data = Object.assign({}, {
+    callback: 'MusicJsonCallback',
+    loginUin: 0,
+    format: 'jsonp',
+    platform: 'yqq',
+    needNewCode: 0,
+    cid: 205361747,
+    guid: 5735980670,
+    songmid: songmid,
+    filename: `C400${songmid}.m4a`
+  })
+  return jsonp(url, data)
 }
